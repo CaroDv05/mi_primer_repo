@@ -1,0 +1,67 @@
+---
+title: "Practica Programa 1 Limpieza Datos Netflix"
+author: "Carolina Durán Villalta"
+date: "2023-07-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(readr)
+library(readxl)
+library(tidyr)# doma de datos
+library(janitor) #limpieza de datos
+library(lubridate)
+library(hms)
+library(gt)
+library(datasets)
+```
+
+```{r}
+datos_netflix <- read_csv2("https://raw.githubusercontent.com/isa229/programacion_analisis_datos_ii/main/netflix_info.csv")
+```
+
+```{r}
+datos_netflix <- datos_netflix |>
+ rename(
+   "Id_programa" = show_id,
+    "Tipo" =  type,
+   "Título"  =  title,
+    "Director" = director,
+   "País" = country,
+   "Fecha_agregada" = date_added,
+   "Año_de_lanzamiento" = release_year,
+   "Clasificación" = rating,
+   "Duración" = duration,
+   "Listado_en" = listed_in
+    )
+```
+
+```{r}
+informacion_duplicada <- datos_netflix |>
+  janitor::get_dupes()
+```
+
+```{r}
+datos_netflix |>
+  janitor::get_dupes(Título, Id_programa) |> 
+  select(Título, Id_programa, dupe_count) |> 
+  distinct()
+```
+
+```{r}
+informacion_duplicada <- datos_netflix |> 
+distinct()
+```
+
+```{r}
+datos_sin_vacios <- informacion_duplicada |> 
+  remove_empty(which = c("rows", "cols")) 
+```
+
+```{r}
+datos_sin_año_de_lanzamiento <- select(datos_sin_vacios,-Año_de_lanzamiento)
+```
+
