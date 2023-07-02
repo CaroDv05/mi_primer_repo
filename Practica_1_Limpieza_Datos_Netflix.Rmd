@@ -108,6 +108,56 @@ datos_finales_netflix <- datos_finales_netflix |>
   mutate(Mes = month(Fecha_agregada))
 ```
 
+Cuántas películas y shows de TV hay por país?
+
+R// United States 3240,India 1057,United Kingdom 638,Pakistan 421,Sin información 287,Canada 271,Japan 259,South Korea 214,France 213,Spain 182,Mexico 138,Egypt 123,Australia 114,Turkey 112,Nigeria 105,Germany 104,Brazil 88,Indonesia 86,Taiwan 86,Philippines 83,Hong Kong 79,Argentina 76,Italy 66,Thailand 66,Colombia 42,South Africa 42,Denmark 30,Poland 30,Ireland 28,Netherlands 28,Singapore 28,Lebanon 24,Malaysia 23,Chile 22,Israel 22,Norway 21,United Arab Emirates 21,Russia 19,Sweden 19,Belgium 18,New Zealand 17,Saudi Arabia 12,Romania 10,Austria 9,Uruguay 9,Switzerland 8,Kuwait 7,Vietnam 7,Czech Republic 6,Finland 6,Iceland 6,Peru 6,Bulgaria 5,Hungary 5,Ghana 4,Kenya 4,Portugal 4,Bangladesh 3,Serbia 3,Cambodia 2,Croatia 2,Georgia 2,Jordan 2,Mauritius 2,Syria 2,Ukraine 2,Venezuela 2,Belarus 1,Cameroon 1,Cyprus 1,Greece 1,Guatemala 1,Iran 1,Jamaica 1,Luxembourg 1,Mozambique 1,Namibia 1,Paraguay 1,Puerto Rico 1,Senegal 1,Slovenia 1,Somalia 1,
+Soviet Union 1,West Germany 1,Zimbabwe 1
+
+#Profe no se si era de otra forma, pero igual hice una tablita más detallada que tira los paises y  la cantidad de las movies y tv show de forma individual para saber cuántas de cada tipo hay en el país
+
+```{r}
+conteo_pais_categoria <- datos_finales_netflix |>
+  group_by(País,Tipo) |>
+  summarise(Conteo = n())
+
+#conteo por categoria
+```
+
+```{r}
+conteo_pais_categoria |> 
+ arrange(País) 
+```
+
+```{r}
+conteo_general_pais <- datos_finales_netflix |>
+  group_by(País) |>
+  summarise(Conteo = n())
+#conteo general 
+
+```
+
+```{r}
+conteo_general_pais |> 
+ arrange(desc(Conteo)) 
+```
+
+
+
+Cuáles son los 10 directores con mayor cantidad de películas (sin contar shows de TV) en Netflix?
+Ordénelos por orden descendente.
+
+R// Son los siguientes directores : 
+1- Sin información 173
+2- Rajiv Chilaka 19
+3- Raúl Campos, Jan Suter 18
+4- Suhas Kadav 16
+5- Marcus Raboy 15
+6- Jay Karas 14
+7- Cathy Garcia-Molina 13
+8- Jay Chapman 12
+9- Martin Scorsese 12
+10- Youssef Chahine 12
+
 ```{r}
 Movies <- datos_finales_netflix %>%
   filter(Tipo == "Movie")
@@ -120,6 +170,21 @@ Top_10_directores_peliculas <- Movies %>%
   arrange(desc(Conteo)) %>%
   top_n(10)
 ```
+
+Cuáles son los 10 directores con mayor cantidad de shows de TV (sin contar películas) en Netflix?
+Ordénelos por orden descendente.
+
+Los 10 directores con mayor cantidad de shows de tv son:
+
+1- Sin información 2415 
+2- Alastair Fothergill 14
+3- Mark Thornton, Todd Kauffman 5
+4- Stan Lathan 3
+5- Hsu Fu-chun 2
+6- Iginio Straffi 2
+7- Ken Burns 2
+8- Rob Seidenglanz 2
+9- Shin Won-ho 2
 
 ```{r}
 Show <- datos_finales_netflix %>%
@@ -135,6 +200,11 @@ Top_10_directores_shows <- Show %>%
 
 #profe aquí si ponía 10, me tiraba la lista de todos los shows, por eso puse 9 
 ```
+
+Obtenga la lista de películas y shows de TV que se añadieron en marzo del año 2020. Cuántos fueron?
+
+ R// Fueron un total de 137 películas añadidas en Marzo del 2020
+
 
 ```{r}
 datos_pelis_shows_marzo_2020<- datos_finales_netflix |> 
